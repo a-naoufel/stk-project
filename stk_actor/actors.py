@@ -1,40 +1,42 @@
 import gymnasium as gym
-from bbrl.agents import Agent
-import torch
 
 
 class MyWrapper(gym.ActionWrapper):
+    """Example custom wrapper (does nothing)."""
+
     def __init__(self, env, option: int):
         super().__init__(env)
         self.option = option
 
     def action(self, action):
-        # We do nothing here
         return action
 
 
-class Actor(Agent):
-    """Computes probabilities over action"""
+def make_random_actor(observation_space, action_space):
+    """Return a stateless actor that samples random actions."""
 
-    def forward(self, t: int):
-        # Computes probabilities over actions
-        raise NotImplementedError()
+    def actor(state, obs):
+        return action_space.sample()
 
-
-class ArgmaxActor(Agent):
-    """Actor that computes the action"""
-
-    def forward(self, t: int):
-        # Selects the best actions according to the policy
-        raise NotImplementedError()
+    return actor
 
 
-class SamplingActor(Agent):
-    """Just sample random actions"""
+def make_stateful_actor(module_dir, observation_space, action_space):
+    """Return a stateful actor that counts steps.
 
-    def __init__(self, action_space: gym.Space):
-        super().__init__()
-        self.action_space = action_space
+    All actors receive ``(state, obs)``. The state object is created by
+    ``create_state()`` (see pystk_actor.py) and persists across steps
+    within a single race. The actor can mutate it in place.
+    """
+    # Example: load trained weights from module_dir
+    # weights_path = Path(module_dir) / "pystk_actor.pth"
+    # model = ...
+    # model.load_state_dict(torch.load(weights_path))
 
-    def forward(self, t: int):
-        self.set(("action", t), torch.LongTensor([self.action_space.sample()]))
+    def actor(state, obs):
+        state["step"] += 1
+
+        # Replace with your own logic
+        return action_space.sample()
+
+    return actor

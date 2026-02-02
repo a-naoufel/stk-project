@@ -1,34 +1,32 @@
+"""Training script example.
+
+Run from the repository root:
+
+    PYTHONPATH=. python -m stk_actor.learn
+"""
+
 from pathlib import Path
+
+import gymnasium as gym
 from pystk2_gymnasium import AgentSpec
-from functools import partial
-import torch
-import inspect
-from bbrl.agents.gymnasium import ParallelGymAgent, make_env
 
 # Note the use of relative imports
-from .actors import Actor
 from .pystk_actor import env_name, get_wrappers, player_name
 
 
 if __name__ == "__main__":
-    # Setup the environment
-    make_stkenv = partial(
-        make_env,
+    # (1) Create the environment
+    env = gym.make(
         env_name,
-        wrappers=get_wrappers(),
         render_mode=None,
-        autoreset=True,
         agent=AgentSpec(use_ai=False, name=player_name),
     )
+    for wrapper_fn in get_wrappers():
+        env = wrapper_fn(env)
 
-    env_agent = ParallelGymAgent(make_stkenv, 1)
-    env = env_agent.envs[0]
+    # (2) Train your agent
+    # ...
 
-    # (2) Learn
-
-    actor = Actor(env.observation_space, env.action_space)
-    ...
-
-    # (3) Save the actor sate
-    mod_path = Path(inspect.getfile(get_wrappers)).parent
-    torch.save(actor.state_dict(), mod_path / "pystk_actor.pth")
+    # (3) Save your model weights
+    mod_path = Path(__file__).parent
+    # Example: torch.save(model.state_dict(), mod_path / "pystk_actor.pth")
