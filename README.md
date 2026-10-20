@@ -30,8 +30,9 @@ We use [uv](https://docs.astral.sh/uv/) to manage the Python environment
 # To be run from the base directory: creates a virtual environment in .venv
 uv venv
 # Install the PySTK2 gymnasium environment with the race runner (cli) and
-# the web dashboard (web) -- add any other library you need
-uv pip install "pystk2-gymnasium[cli,web]"
+# the web dashboard (web) -- add any other library you need (but only the
+# libraries available on ML-Arena can be used, see below)
+uv pip install "pystk2-gymnasium[cli,web]==0.10.0"
 ```
 
 Then define the `PYSTK2` and `PYTHON` aliases used in the commands below (in every new
@@ -45,6 +46,11 @@ alias PYTHON="uv run python"
 ## Structure
 
 **Warning**: all the imports should be relative within your module (see `learn.py` for an example).
+
+### `agent.py`
+
+The [ML-Arena](https://ml-arena.com/viewchallenge/169) shim that runs your agent
+on the platform: **do not modify it** (and you do not need to read it).
 
 ### `actors.py`
 
@@ -143,38 +149,64 @@ Other useful options: `--track TRACK` (choose the track), `--num-karts N`,
 `--laps N`, `--max-steps N`, and `--record race.mp4` to save a video of the race
 (see `PYSTK2 race --help` for the full list).
 
-## Submit your work on the `evaluation` branch
+## Submit your work on ML-Arena
 
-1. **Commit your final work**
+Your agent is evaluated on [ML-Arena](https://ml-arena.com/viewchallenge/169):
+four karts race on a random track, and agents are ranked by a pairwise Elo
+rating (a race gives 4 - placement points).
 
-   ```bash
-   # Add files
-   git add ...
-   git commit -m "Final version for evaluation"
+1. **Check your agent locally**
+
+   ```sh
+   uv run scripts/check_submission.py
    ```
 
-   Ensure that all relevant files are versioned with `git status` -- in particular the `pystk_actor.pth`.
+   This runs with the libraries of the platform (the first run downloads
+   them): it checks the files that will be uploaded (`agent.py`,
+   `pystk_actor.py`, `pystk_actor.pth`, `actors.py`, ... — `__init__.py` and
+   `learn.py` are left out) and the upload limits, then loads your agent the
+   way the platform does and plays a short race (use `--steps N` and
+   `--track TRACK` to change it).
 
-2. **Switch (or create) the `evaluation` branch**
+2. **Submit it**, either from the command line or from the web site.
 
-   ```bash
-   git fetch origin
-   git checkout -B evaluation origin/evaluation || git checkout -b evaluation
+   *From the command line*: create an API key on your ML-Arena profile
+   (Profile → API Keys) and put it in a `.env` file in the base directory
+   (it is ignored by git: **never commit it**)
+
+   ```sh
+   MLARENA_API_KEY=mlk_...
    ```
 
+   then run
 
-3. **Merge your work and push**
-
-   ```bash
-   git merge main        # or your working branch
-   git push origin evaluation
+   ```sh
+   uv run scripts/submit.py
    ```
 
-   In case of problem with the `pystk_actor.pth` file, use this
-   ```bash
-    # overwrite binary file
-    git checkout main -- stk_actor/pystk_actor.pth
-    git add stk_actor/pystk_actor.pth
-   ```
+   The submission is named after `player_name` (in `pystk_actor.py`): change
+   it from `"Example"` first (or use `--name NAME`). This uploads the files of
+   `stk_actor/`, selects the right runtime, deploys the submission and
+   follows its evaluation (use `--no-wait` to return immediately). The first call creates a submission and saves its id in
+   `.mlarena_submission`: the next calls update the same submission (use
+   `--new` to create another one, or `--submission-id ID` to update a given
+   one).
 
-4. **Check online** that the `evaluation` branch contains your latest commit.
+   *From the web site*: upload the files of the `stk_actor/` folder (not the
+   folder itself, and without `__init__.py` and `learn.py`) on the [challenge
+   page](https://ml-arena.com/viewchallenge/169), and choose the runtime
+   *PyTorch · SuperTuxKart (pystk2-gymnasium, SB3)* (with any other runtime,
+   your agent fails).
+
+3. **Check the runs** of your submission: if your agent fails, the error and
+   its traceback are shown there.
+
+Platform constraints:
+
+- **Files**: at most 10 files and 100 MB in total, all in one folder (no
+  sub-folders, so all your modules must be next to `pystk_actor.py`)
+- **Libraries**: only those of the runtime (Python 3.12, `pystk2-gymnasium`
+  0.10.0, PyTorch 2.12, Stable-Baselines3 2.9 and SB3-Contrib 2.9, gymnasium,
+  numpy, pandas, matplotlib...): you cannot install other libraries
+- **Resources**: CPU only (no GPU), 3 CPUs, 3 GB of memory and **at most 1
+  second per step**

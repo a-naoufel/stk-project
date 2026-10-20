@@ -1,3 +1,6 @@
+# agent.py is the ML-Arena shim, kept as is
+exclude: ^stk_actor/agent\.py$
+
 default_install_hook_types:
   - pre-commit
   - commit-msg
