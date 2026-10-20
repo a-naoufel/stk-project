@@ -11,11 +11,13 @@ Run it with:
 
 The API key is created on your ML-Arena profile page (Profile → API Keys) and
 read from the MLARENA_API_KEY variable, which can be set in the .env file of
-the base directory
-(MLARENA_API_KEY=mlk_...); it is asked if not set. The first call creates a submission,
-whose id is saved in .mlarena_submission: the next calls update it (use
---new to create another one). The submission is named after the player_name
-of pystk_actor.py (or --name), and renamed when it changes.
+the base directory (MLARENA_API_KEY=mlk_...); it is asked if not set.
+
+A deployed submission cannot be modified, so each call creates a new
+submission, whose id is saved in .mlarena_submission: when the previous one
+could not be deployed (e.g. its files were rejected), it is updated instead
+(use --new to always create a new one). The submission is named after the
+player_name of pystk_actor.py (or --name).
 """
 
 import argparse
@@ -105,6 +107,18 @@ def submit(args):
     submission_id = args.submission_id
     if submission_id is None and not args.new and SUBMISSION_FILE.is_file():
         submission_id = int(SUBMISSION_FILE.read_text())
+
+    status = None
+    if submission_id is not None:
+        status = client.submission(submission_id)
+        if not status["is_uploadable"]:
+            # A deployed (active) submission cannot be modified
+            print(
+                f"Submission {submission_id} is {status['status']} and cannot be"
+                " updated: creating a new one"
+            )
+            submission_id, status = None, None
+
     if submission_id is None:
         created = client.create_submission(CHALLENGE_ID, name)
         submission_id = created["submission_id"]
@@ -115,14 +129,18 @@ def submit(args):
         )
     else:
         print(f"Updating submission {submission_id}")
-        current = client.submission(submission_id)["submission_name"]
-        if current != name:
-            print(f"Renaming the submission from {current!r} to {name!r}")
+        if status["submission_name"] != name:
+            print(
+                f"Renaming the submission from {status['submission_name']!r}"
+                f" to {name!r}"
+            )
             client.update_submission(submission_id, submission_name=name)
 
     runtime = find_runtime(client)
-    print(f"Using runtime {runtime['display_name']}")
-    client.set_agent_runtime(submission_id, runtime["id"])
+    current_runtime = (status or {}).get("agent_runtime") or {}
+    if current_runtime.get("id") != runtime["id"]:
+        print(f"Using runtime {runtime['display_name']}")
+        client.set_agent_runtime(submission_id, runtime["id"])
 
     upload(client, submission_id, files)
 

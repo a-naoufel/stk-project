@@ -187,10 +187,13 @@ rating (a race gives 4 - placement points).
    The submission is named after `player_name` (in `pystk_actor.py`): change
    it from `"Example"` first (or use `--name NAME`). This uploads the files of
    `stk_actor/`, selects the right runtime, deploys the submission and
-   follows its evaluation (use `--no-wait` to return immediately). The first call creates a submission and saves its id in
-   `.mlarena_submission`: the next calls update the same submission (use
-   `--new` to create another one, or `--submission-id ID` to update a given
-   one).
+   follows its evaluation (use `--no-wait` to return immediately).
+
+   A deployed submission cannot be modified on ML-Arena, so each call
+   creates a new submission (at most 20 active submissions and 5 deployments
+   per day). Its id is saved in `.mlarena_submission`, so that the next call
+   updates it instead if it could not be deployed (use `--new` to always
+   create a new one, or `--submission-id ID` to update a given one).
 
    *From the web site*: upload the files of the `stk_actor/` folder (not the
    folder itself, and without `__init__.py` and `learn.py`) on the [challenge
