@@ -2,3 +2,9 @@ __pycache__
 .venv/
 .mlarena_submission
 .env
+.tools/
+.python/
+.cache/
+outputs/
+dist/
+.pytest_cache/

@@ -1,0 +1,24 @@
+[project]
+name = "stk-project"
+version = "0.1.0"
+description = "SuperTuxKart RL starter for Master MIND"
+requires-python = "==3.12.*"
+dependencies = [
+    "pystk2-gymnasium[cli,web]==0.10.0",
+    "gymnasium==1.3.0",
+    "numpy==2.5.3",
+    "torch==2.12.0",
+    "stable-baselines3==2.9.0",
+    "sb3-contrib==2.9.0",
+]
+
+[tool.uv]
+package = false
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true

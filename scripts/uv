@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+set -eu
+STK_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+if command -v uv >/dev/null 2>&1; then
+    exec uv "$@"
+fi
+exec "$STK_ROOT/.tools/uv" "$@"
