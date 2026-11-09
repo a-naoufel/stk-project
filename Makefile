@@ -1,9 +1,18 @@
+ifneq ($(wildcard .ppti-env),)
+PYTHON := bash scripts/run_ppti.sh python
+PYSTK2 := bash scripts/run_ppti.sh pystk2
+else
 PYTHON := .venv/bin/python
 PYSTK2 := .venv/bin/pystk2
+endif
 
 .PHONY: setup test check race dashboard train smoke evaluate package
 setup:
+ifneq ($(wildcard .ppti-env),)
+	$(PYTHON) -c "import sys, pystk2_gymnasium, torch, stable_baselines3; print(sys.executable); print('PPTI runtime ready')"
+else
 	./scripts/uv sync --frozen
+endif
 test:
 	$(PYTHON) -m unittest discover -s tests -v
 check:

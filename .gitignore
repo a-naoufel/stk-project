@@ -8,3 +8,8 @@ __pycache__
 outputs/
 dist/
 .pytest_cache/
+.ppti-env
+.ppti-proxy
+
+# Ignore a literal home-directory mirror at the project root.
+/~/

@@ -1,0 +1,22 @@
+{
+  "track": "lighthouse",
+  "mode": "TIME_TRIAL",
+  "kart": "tux",
+  "num_karts": 1,
+  "laps": 1,
+  "step_size": 0.1,
+  "max_steps": 1500,
+  "train_offset_m": 1.5,
+  "evaluation_seeds": [50000, 50001, 50002, 50003, 50004, 50005, 50006, 50007, 50008, 50009, 50010],
+  "evaluation_offsets_m": [-2.0, -1.75, -1.25, -0.75, -0.25, 0.0, 0.25, 0.75, 1.25, 1.75, 2.0],
+  "training_seeds": [0, 1, 2, 3, 4, 5, 6, 7],
+  "methods": ["dagger", "symmetric", "sac"],
+  "online_steps": 16384,
+  "bc_updates": 2048,
+  "expert_episodes": 32,
+  "primary_outcome": "Mean lap time over 11 fixed starts per training seed, assigning 150 s to a timeout",
+  "primary_contrast": "Symmetric SAC minus DAgger, paired by training seed",
+  "inference": "Paired mean difference with a 20000-resample percentile bootstrap over training seeds, and a two-sided exact paired sign test",
+  "secondary_outcomes": ["Completion rate", "Lap time among finishes", "Expert queries", "Matched online-only SAC ablation", "Shared behavior-cloning baseline"],
+  "rule": "Evaluate the final policy for each planned seed and retain all timeouts. Evaluation results do not select checkpoints."
+}

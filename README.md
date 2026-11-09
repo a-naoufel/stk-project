@@ -3,6 +3,14 @@
 Bootstrapped from the [instructor's STK template](https://git.isir.upmc.fr/bpiwowar/pystk2-project-template).
 The original platform adapter `stk_actor/agent.py` is unchanged.
 
+The [DAgger and symmetric sampling study](docs/STK_STUDY.md) compares both
+methods in a solo Lighthouse time trial. It includes the matched training
+protocol, empirical results, and commands to reproduce the study.
+
+For room 14-407 machines, see [PPTI deployment and run commands](docs/PPTI.md).
+The [7 November four-kart PPO evaluation](docs/EVALUATION.md) compares the
+earlier 14 trained models and baselines across 2,205 races.
+
 ```bash
 cd /home/naoufel/Documents/stk-project
 make test       # feature/action and checkpoint checks
@@ -43,6 +51,14 @@ an existing checkpoint before training if you want to preserve it.
 Logs, episode monitor CSV, configuration, a resumable `ppo.zip`, and periodic
 checkpoints go to `outputs/ppo-*/`. The smoke test leaves the deployed
 heuristic in place. A short smoke run does not produce a useful trained agent.
+
+PPO defaults to the `progress-v1` reward. It pays 0.1 per metre of new
+on-track progress supported by physical movement, charges 0.02 per racing step
+and another 0.08 while off the track, and pays 10 plus a small placement bonus
+at the finish. Progress wraps at the start line, and revisiting the same
+section after a rescue earns no repeat progress. The run records the reward
+name in `run.json`. Pass `--reward simulator` to reproduce the original
+training objective for a comparison.
 
 For a specific experiment:
 
