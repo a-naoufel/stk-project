@@ -16,7 +16,7 @@ from stable_baselines3.common.type_aliases import ReplayBufferSamples
 
 from scripts.evaluate import write_json
 from scripts.study_env import (
-    EVAL_OFFSETS_M, EXPERT_COMMIT, MAX_STEPS, STEP_SIZE, TIMEOUT_S, TRACK,
+    EVAL_OFFSETS_M, EXPERT_COMMIT, MAX_STEPS, STEP_SIZE, TRACK,
     TRAIN_OFFSET_M, evaluate_policy, expert_action, expert_factory, lap_result, make_trial,
 )
 from stk_actor.actors import FEATURE_DIM, FEATURE_VERSION, NET_ARCH
@@ -65,19 +65,24 @@ def runtime():
     }}
 
 
+def trial_options(args):
+    return {"track": args.track, "max_steps": args.max_steps, "eval_offsets": args.eval_offsets,
+            "observe_track_items": args.observe_track_items}
+
+
 def generate(args, make_expert):
     args.output.mkdir(parents=True)
-    env = make_trial(DEMO_SEED)
+    env = make_trial(DEMO_SEED, **trial_options(args))
     rng = np.random.default_rng(DEMO_SEED)
     data = {key: [] for key in FIELDS}
     episodes = []
     try:
-        for index in range(DEMO_EPISODES):
+        for index in range(args.demo_transitions or DEMO_EPISODES):
             seed = DEMO_SEED + index
             offset = float(rng.uniform(-TRAIN_OFFSET_M, TRAIN_OFFSET_M))
             obs, _ = env.reset(seed=seed, options={"offset_m": offset})
             expert = make_expert(env.unwrapped)
-            for step in range(1, MAX_STEPS + 1):
+            for step in range(1, args.max_steps + 1):
                 action = expert_action(expert, env.unwrapped)
                 new_obs, reward, finished, truncated, _ = env.step(action)
                 for key, value in zip(FIELDS, (obs, action, new_obs, [finished], [reward])):
@@ -86,16 +91,21 @@ def generate(args, make_expert):
                 if finished or truncated:
                     break
             episodes.append({"seed": seed, "offset_m": offset, **lap_result(env, finished, step)})
+            if args.demo_transitions and len(data["rewards"]) >= args.demo_transitions:
+                break
         path = args.output / "expert.npz"
-        np.savez_compressed(path, **{key: np.asarray(value, dtype=np.float32) for key, value in data.items()})
+        arrays = {key: np.asarray(value[:args.demo_transitions], dtype=np.float32)
+                  for key, value in data.items()}
+        np.savez_compressed(path, **arrays)
         test_laps = evaluate_policy(env, None, make_expert)
         write_json(args.output / "expert.json", {
-            "commit": EXPERT_COMMIT, "agent": "team3", "track": TRACK,
-            "dataset_sha256": fingerprint(path), "transitions": len(data["rewards"]),
+            "commit": EXPERT_COMMIT, "agent": f"team{args.expert_team}", "track": args.track,
+            "dataset_sha256": fingerprint(path), "transitions": len(arrays["rewards"]),
+            "collected_transitions": len(data["rewards"]), "max_steps": args.max_steps,
             "episodes": episodes, "evaluation": test_laps, "runtime": runtime(),
         })
         completed = sum(row["finished"] for row in episodes)
-        print(f"Expert dataset: {len(data['rewards'])} transitions, {completed}/{len(episodes)} completed", flush=True)
+        print(f"Expert dataset: {len(arrays['rewards'])} transitions, {completed}/{len(episodes)} completed", flush=True)
     finally:
         env.close()
 
@@ -146,7 +156,7 @@ def train(args, make_expert):
     with np.load(args.dataset, allow_pickle=False) as arrays:
         dataset = {key: arrays[key] for key in FIELDS}
     dataset_sha = fingerprint(args.dataset)
-    env = make_trial(args.seed)
+    env = make_trial(args.seed, **trial_options(args))
     start = time.perf_counter()
     try:
         model = SAC(
@@ -187,11 +197,13 @@ def train(args, make_expert):
         model.save(args.output / "policy")
         write_json(args.output / "run.json", {
             "method": args.method, "seed": args.seed, "online_steps": args.steps,
-            "track": TRACK, "kart": "tux", "mode": "TIME_TRIAL", "num_karts": 1, "laps": 1,
-            "step_size": STEP_SIZE, "max_steps": MAX_STEPS, "timeout_s": TIMEOUT_S,
-            "train_offset_m": TRAIN_OFFSET_M, "eval_offsets_m": EVAL_OFFSETS_M,
+            "track": args.track, "kart": "tux", "mode": "TIME_TRIAL", "num_karts": 1, "laps": 1,
+            "step_size": STEP_SIZE, "max_steps": args.max_steps, "timeout_s": args.max_steps * STEP_SIZE,
+            "train_offset_m": TRAIN_OFFSET_M, "eval_offsets_m": args.eval_offsets,
+            "observe_track_items": args.observe_track_items,
             "reward": "progress-v1", "feature_version": FEATURE_VERSION,
             "dataset_sha256": dataset_sha, "expert_commit": EXPERT_COMMIT,
+            "expert_team": args.expert_team,
             "net_arch": NET_ARCH, "batch_size": BATCH_SIZE, "threads": 1,
             "bc_updates": args.bc_updates, "bc_lr": BC_LR, "bc_last_mse": loss,
             "initial_actor_sha256": initial_actor_sha, "bc_evaluation": bc,
@@ -214,13 +226,21 @@ def main():
     parser.add_argument("--seed", type=int, default=0)
     parser.add_argument("--steps", type=int, default=16_384)
     parser.add_argument("--bc-updates", type=int, default=BC_UPDATES)
+    parser.add_argument("--track", default=TRACK)
+    parser.add_argument("--expert-team", type=int, choices=range(1, 6), default=3)
+    parser.add_argument("--max-steps", type=int, default=MAX_STEPS)
+    parser.add_argument("--eval-offsets", type=float, nargs="+", default=EVAL_OFFSETS_M)
+    parser.add_argument("--demo-transitions", type=int)
+    parser.add_argument("--observe-track-items", action="store_true")
     args = parser.parse_args()
     if args.method != "expert" and args.dataset is None:
         parser.error("--dataset is required for training")
     if args.steps <= 0 or args.steps % ROUNDS or args.bc_updates <= 0:
         parser.error("--steps must be a positive multiple of eight and --bc-updates must be positive")
+    if args.max_steps <= 0 or (args.demo_transitions is not None and args.demo_transitions <= 0):
+        parser.error("--max-steps and --demo-transitions must be positive")
     torch.set_num_threads(1)
-    make_expert = expert_factory(args.expert_repo) if args.method in {"expert", "dagger"} else None
+    make_expert = expert_factory(args.expert_repo, args.expert_team) if args.method in {"expert", "dagger"} else None
     if args.method == "expert":
         generate(args, make_expert)
     else:

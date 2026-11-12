@@ -1,0 +1,849 @@
+{
+  "track": "fortmagma",
+  "runtime": {
+    "python": "3.12.14",
+    "numpy": "2.2.6",
+    "pysupertuxkart2": "0.7.4",
+    "pystk2-gymnasium": "0.10.0",
+    "torch": "2.12.0+cpu",
+    "stable-baselines3": "2.9.0"
+  },
+  "expert_commit": "ddf2cb6573850f890bba26d4e5f82888d9dac82a",
+  "controllers": {
+    "1": {
+      "name": "Tasty Crousteam",
+      "restricted": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 565,
+          "lap_s": 56.547245025634766,
+          "capped_s": 56.547245025634766
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 533,
+          "lap_s": 53.34583282470703,
+          "capped_s": 53.34583282470703
+        }
+      ],
+      "native": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 907,
+          "lap_s": 90.70421600341797,
+          "capped_s": 90.70421600341797
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 907,
+          "lap_s": 90.70421600341797,
+          "capped_s": 90.70421600341797
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 863,
+          "lap_s": 86.30421447753906,
+          "capped_s": 86.30421447753906
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 715,
+          "lap_s": 71.47888946533203,
+          "capped_s": 71.47888946533203
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 652,
+          "lap_s": 65.26625061035156,
+          "capped_s": 65.26625061035156
+        }
+      ]
+    },
+    "2": {
+      "name": "DemoPilote",
+      "restricted": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 495,
+          "lap_s": 49.47962951660156,
+          "capped_s": 49.47962951660156
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 500,
+          "lap_s": 50.06583023071289,
+          "capped_s": 50.06583023071289
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        }
+      ],
+      "native": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 497,
+          "lap_s": 49.69733428955078,
+          "capped_s": 49.69733428955078
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": true,
+          "steps": 493,
+          "lap_s": 49.28822326660156,
+          "capped_s": 49.28822326660156
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": true,
+          "steps": 552,
+          "lap_s": 55.23117446899414,
+          "capped_s": 55.23117446899414
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 491,
+          "lap_s": 49.079551696777344,
+          "capped_s": 49.079551696777344
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 579,
+          "lap_s": 57.87919998168945,
+          "capped_s": 57.87919998168945
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 579,
+          "lap_s": 57.87919998168945,
+          "capped_s": 57.87919998168945
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 549,
+          "lap_s": 54.92290496826172,
+          "capped_s": 54.92290496826172
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 552,
+          "lap_s": 55.23741149902344,
+          "capped_s": 55.23741149902344
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 614,
+          "lap_s": 61.382049560546875,
+          "capped_s": 61.382049560546875
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 488,
+          "lap_s": 48.79906463623047,
+          "capped_s": 48.79906463623047
+        }
+      ]
+    },
+    "3": {
+      "name": "Team L'Eclair",
+      "restricted": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": true,
+          "steps": 524,
+          "lap_s": 52.38317108154297,
+          "capped_s": 52.38317108154297
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": true,
+          "steps": 521,
+          "lap_s": 52.087371826171875,
+          "capped_s": 52.087371826171875
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 521,
+          "lap_s": 52.147377014160156,
+          "capped_s": 52.147377014160156
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 524,
+          "lap_s": 52.38001251220703,
+          "capped_s": 52.38001251220703
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 524,
+          "lap_s": 52.38001251220703,
+          "capped_s": 52.38001251220703
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 523,
+          "lap_s": 52.29875946044922,
+          "capped_s": 52.29875946044922
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 535,
+          "lap_s": 53.48771286010742,
+          "capped_s": 53.48771286010742
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 546,
+          "lap_s": 54.62495422363281,
+          "capped_s": 54.62495422363281
+        }
+      ],
+      "native": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 698,
+          "lap_s": 69.80797576904297,
+          "capped_s": 69.80797576904297
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": true,
+          "steps": 643,
+          "lap_s": 64.36457061767578,
+          "capped_s": 64.36457061767578
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": true,
+          "steps": 752,
+          "lap_s": 75.18318939208984,
+          "capped_s": 75.18318939208984
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 623,
+          "lap_s": 62.30573272705078,
+          "capped_s": 62.30573272705078
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 647,
+          "lap_s": 64.67263793945312,
+          "capped_s": 64.67263793945312
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 647,
+          "lap_s": 64.67263793945312,
+          "capped_s": 64.67263793945312
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 572,
+          "lap_s": 57.20750427246094,
+          "capped_s": 57.20750427246094
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 730,
+          "lap_s": 72.97189331054688,
+          "capped_s": 72.97189331054688
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 549,
+          "lap_s": 54.95527648925781,
+          "capped_s": 54.95527648925781
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 790,
+          "lap_s": 78.98318481445312,
+          "capped_s": 78.98318481445312
+        }
+      ]
+    },
+    "4": {
+      "name": "The Winners",
+      "restricted": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        }
+      ],
+      "native": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 557,
+          "lap_s": 55.688995361328125,
+          "capped_s": 55.688995361328125
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": true,
+          "steps": 551,
+          "lap_s": 55.14983367919922,
+          "capped_s": 55.14983367919922
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": true,
+          "steps": 551,
+          "lap_s": 55.098506927490234,
+          "capped_s": 55.098506927490234
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 597,
+          "lap_s": 59.70388412475586,
+          "capped_s": 59.70388412475586
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 611,
+          "lap_s": 61.15349578857422,
+          "capped_s": 61.15349578857422
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 611,
+          "lap_s": 61.15349578857422,
+          "capped_s": 61.15349578857422
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 643,
+          "lap_s": 64.28196716308594,
+          "capped_s": 64.28196716308594
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 618,
+          "lap_s": 61.83869552612305,
+          "capped_s": 61.83869552612305
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 613,
+          "lap_s": 61.272186279296875,
+          "capped_s": 61.272186279296875
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 609,
+          "lap_s": 60.95798110961914,
+          "capped_s": 60.95798110961914
+        }
+      ]
+    },
+    "5": {
+      "name": "Donkey Bombs",
+      "restricted": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 511,
+          "lap_s": 51.154903411865234,
+          "capped_s": 51.154903411865234
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 515,
+          "lap_s": 51.562957763671875,
+          "capped_s": 51.562957763671875
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 510,
+          "lap_s": 51.05484390258789,
+          "capped_s": 51.05484390258789
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 510,
+          "lap_s": 51.05484390258789,
+          "capped_s": 51.05484390258789
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 525,
+          "lap_s": 52.54589080810547,
+          "capped_s": 52.54589080810547
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 517,
+          "lap_s": 51.672550201416016,
+          "capped_s": 51.672550201416016
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": false,
+          "steps": 2000,
+          "lap_s": null,
+          "capped_s": 200.0
+        }
+      ],
+      "native": [
+        {
+          "seed": 50000,
+          "offset_m": -1.2,
+          "finished": true,
+          "steps": 614,
+          "lap_s": 61.43054962158203,
+          "capped_s": 61.43054962158203
+        },
+        {
+          "seed": 50001,
+          "offset_m": -0.9,
+          "finished": true,
+          "steps": 602,
+          "lap_s": 60.222450256347656,
+          "capped_s": 60.222450256347656
+        },
+        {
+          "seed": 50002,
+          "offset_m": -0.6,
+          "finished": true,
+          "steps": 495,
+          "lap_s": 49.5548095703125,
+          "capped_s": 49.5548095703125
+        },
+        {
+          "seed": 50003,
+          "offset_m": -0.3,
+          "finished": true,
+          "steps": 587,
+          "lap_s": 58.76368713378906,
+          "capped_s": 58.76368713378906
+        },
+        {
+          "seed": 50004,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 602,
+          "lap_s": 60.256019592285156,
+          "capped_s": 60.256019592285156
+        },
+        {
+          "seed": 50005,
+          "offset_m": 0.0,
+          "finished": true,
+          "steps": 602,
+          "lap_s": 60.256019592285156,
+          "capped_s": 60.256019592285156
+        },
+        {
+          "seed": 50006,
+          "offset_m": 0.3,
+          "finished": true,
+          "steps": 1031,
+          "lap_s": 103.11247253417969,
+          "capped_s": 103.11247253417969
+        },
+        {
+          "seed": 50007,
+          "offset_m": 0.6,
+          "finished": true,
+          "steps": 499,
+          "lap_s": 49.9555549621582,
+          "capped_s": 49.9555549621582
+        },
+        {
+          "seed": 50008,
+          "offset_m": 0.9,
+          "finished": true,
+          "steps": 502,
+          "lap_s": 50.174461364746094,
+          "capped_s": 50.174461364746094
+        },
+        {
+          "seed": 50009,
+          "offset_m": 1.2,
+          "finished": true,
+          "steps": 494,
+          "lap_s": 49.45529556274414,
+          "capped_s": 49.45529556274414
+        }
+      ]
+    }
+  }
+}

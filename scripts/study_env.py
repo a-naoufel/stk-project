@@ -1,6 +1,8 @@
-"""Solo Lighthouse time trial shared by the expert and both learners."""
+"""Solo time trial shared by the controllers and learners."""
 
+from contextlib import chdir
 from hashlib import sha256
+from importlib import import_module
 from pathlib import Path
 import sys
 
@@ -31,12 +33,16 @@ EXPERT_FILES = {
 
 
 class SoloTrial(STKRaceEnv):
-    def __init__(self, seed, *, graphics_config=None):
+    def __init__(self, seed, *, graphics_config=None, track=TRACK, max_steps=MAX_STEPS,
+                 eval_offsets=EVAL_OFFSETS_M, observe_track_items=False):
         super().__init__(
-            track=TRACK, laps=1, num_kart=1, difficulty=2,
+            track=track, laps=1, num_kart=1, difficulty=2,
             step_size=STEP_SIZE, use_subprocess=False,
             agent=AgentSpec(kart="tux", rank_start=0), graphics_config=graphics_config,
         )
+        self.max_steps = max_steps
+        self.eval_offsets = eval_offsets
+        self.observe_track_items = observe_track_items
         self.starts = np.random.default_rng(seed)
 
     def reset_race(self, random, *, options=None):
@@ -80,49 +86,62 @@ class SoloTrial(STKRaceEnv):
         return result
 
 
-def make_trial(seed, *, graphics_config=None):
-    race = gym.wrappers.TimeLimit(SoloTrial(seed, graphics_config=graphics_config), MAX_STEPS)
-    return DrivingActions(KartFeatures(ProgressReward(race)))
+def make_trial(seed, *, graphics_config=None, track=TRACK, max_steps=MAX_STEPS,
+               eval_offsets=EVAL_OFFSETS_M, native=False, observe_track_items=False):
+    race = gym.wrappers.TimeLimit(SoloTrial(seed, graphics_config=graphics_config, track=track,
+                                           max_steps=max_steps, eval_offsets=eval_offsets,
+                                           observe_track_items=observe_track_items), max_steps)
+    return race if native else DrivingActions(KartFeatures(ProgressReward(race)))
 
 
-def expert_factory(repo):
-    """Use Team 3 from the instructor's checkout without loading its vendored env."""
+def expert_factory(repo, team=3):
+    """Import a controller from the instructor's checkout using the installed simulator."""
     source = Path(repo).resolve() / "src"
-    for name, expected in EXPERT_FILES.items():
-        if sha256((source / name).read_bytes()).hexdigest() != expected:
-            raise ValueError(f"{source / name} differs from expert commit {EXPERT_COMMIT}")
-    sys.path.append(str(source))
-    from agents.team3.agent3 import Agent3
+    if team == 3:
+        for name, expected in EXPERT_FILES.items():
+            if sha256((source / name).read_bytes()).hexdigest() != expected:
+                raise ValueError(f"{source / name} differs from expert commit {EXPERT_COMMIT}")
+    if str(source) not in sys.path:
+        sys.path.append(str(source))
+    # DemoPilote loads a YAML path relative to the upstream launcher at import.
+    with chdir(source / "main" if team == 2 else Path.cwd()):
+        module = import_module(f"agents.team{team}.agent{team}")
+    return getattr(module, f"Agent{team}")
 
-    return Agent3
 
-
-def expert_action(expert, race):
-    raw = expert.choose_action({
-        **race.expert_obs, "items_position": (), "items_type": (),
-    })
+def expert_action(expert, race, *, native=False):
+    observation = dict(race.expert_obs)
+    if race.observe_track_items:
+        observation.update(powerup_type=0, powerup_count=0)
+    else:
+        observation.update(items_position=(), items_type=())
+    raw = expert.choose_action(observation)
     action = np.array([2 * float(raw["acceleration"]) - 1, float(raw["steer"])], dtype=np.float32)
     if not np.isfinite(action).all():
         raise ValueError(f"Expert returned a non-finite action: {action}")
-    return np.clip(action, -1.0, 1.0)
+    action = np.clip(action, -1.0, 1.0)
+    if native:
+        return {"acceleration": (action[0] + 1) / 2, "steer": action[1], "fire": 0,
+                **{key: int(bool(raw.get(key, False))) for key in ("brake", "drift", "nitro", "rescue")}}
+    return action
 
 
 def lap_result(env, finished, steps):
     seconds = float(env.unwrapped.world.karts[0].finish_time) if finished else None
     return {
         "finished": bool(finished), "steps": steps, "lap_s": seconds,
-        "capped_s": seconds if finished else TIMEOUT_S,
+        "capped_s": seconds if finished else env.unwrapped.max_steps * STEP_SIZE,
     }
 
 
-def evaluate_policy(env, policy, make_expert=None):
+def evaluate_policy(env, policy, make_expert=None, *, native=False):
     rows = []
-    for index, offset in enumerate(EVAL_OFFSETS_M):
+    for index, offset in enumerate(env.unwrapped.eval_offsets):
         seed = EVAL_SEED + index
         obs, _ = env.reset(seed=seed, options={"offset_m": offset})
         expert = make_expert(env.unwrapped) if make_expert else None
-        for step in range(1, MAX_STEPS + 1):
-            action = expert_action(expert, env.unwrapped) if expert else policy(obs)
+        for step in range(1, env.unwrapped.max_steps + 1):
+            action = expert_action(expert, env.unwrapped, native=native) if expert else policy(obs)
             obs, _, finished, truncated, _ = env.step(action)
             if finished or truncated:
                 break
