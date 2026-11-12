@@ -1,0 +1,33 @@
+{
+  "dagger": {
+    "method": "dagger",
+    "trial": 10,
+    "params": {
+      "dagger_beta_decay": 0.6444260921752434,
+      "dagger_updates": 768
+    },
+    "runs": 16,
+    "laps": 160,
+    "finishes": 140,
+    "mean_capped_s": 71.86257853507996,
+    "mean_normalized": 121.4143193358623,
+    "mean_wall_s": 21.716546421877865,
+    "updates": 6144
+  },
+  "symmetric": {
+    "method": "symmetric",
+    "trial": 4,
+    "params": {
+      "sac_learning_rate": 0.0001499496976714728,
+      "sac_ent_coef": 0.02597338702769949,
+      "sac_gradient_steps": 2
+    },
+    "runs": 16,
+    "laps": 160,
+    "finishes": 127,
+    "mean_capped_s": 82.94118010997772,
+    "mean_normalized": 137.7069961639684,
+    "mean_wall_s": 35.04395021014352,
+    "updates": 8192
+  }
+}

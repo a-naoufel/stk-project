@@ -7,6 +7,23 @@ from scripts.stk_study import SymmetricReplay
 
 
 class SymmetricReplayTests(unittest.TestCase):
+    def test_asymmetric_splits_and_offline_only_sampling(self):
+        space = Box(-1, 1, shape=(1,), dtype=np.float32)
+        for percent in (25, 75, 100):
+            with self.subTest(offline_percent=percent):
+                buffer = SymmetricReplay(4, space, space, device="cpu", offline_percent=percent)
+                if percent < 100:
+                    value = np.array([[-0.5]], dtype=np.float32)
+                    buffer.add(value, value, value, np.array([-1.0]), np.array([False]), [{}])
+                buffer.offline = {field: np.array([[1.0]], dtype=np.float32) for field in (
+                    "observations", "actions", "next_observations", "dones", "rewards")}
+                batch = buffer.sample(128)
+                expected_offline = 128 * percent // 100
+                self.assertEqual(buffer.offline_draws, expected_offline)
+                self.assertEqual(buffer.online_draws, 128 - expected_offline)
+                self.assertEqual(int((batch.rewards == 1).sum()), expected_offline)
+                self.assertEqual(int((batch.rewards == -1).sum()), 128 - expected_offline)
+
     def test_equal_sources_preserve_transitions_and_timeout_mask(self):
         space = Box(-1, 1, shape=(1,), dtype=np.float32)
         buffer = SymmetricReplay(4, space, space, device="cpu")

@@ -34,7 +34,7 @@ EXPERT_FILES = {
 
 class SoloTrial(STKRaceEnv):
     def __init__(self, seed, *, graphics_config=None, track=TRACK, max_steps=MAX_STEPS,
-                 eval_offsets=EVAL_OFFSETS_M, observe_track_items=False):
+                 eval_offsets=EVAL_OFFSETS_M, eval_seed=EVAL_SEED, observe_track_items=False):
         super().__init__(
             track=track, laps=1, num_kart=1, difficulty=2,
             step_size=STEP_SIZE, use_subprocess=False,
@@ -42,6 +42,7 @@ class SoloTrial(STKRaceEnv):
         )
         self.max_steps = max_steps
         self.eval_offsets = eval_offsets
+        self.eval_seed = eval_seed
         self.observe_track_items = observe_track_items
         self.starts = np.random.default_rng(seed)
 
@@ -87,9 +88,9 @@ class SoloTrial(STKRaceEnv):
 
 
 def make_trial(seed, *, graphics_config=None, track=TRACK, max_steps=MAX_STEPS,
-               eval_offsets=EVAL_OFFSETS_M, native=False, observe_track_items=False):
+               eval_offsets=EVAL_OFFSETS_M, eval_seed=EVAL_SEED, native=False, observe_track_items=False):
     race = gym.wrappers.TimeLimit(SoloTrial(seed, graphics_config=graphics_config, track=track,
-                                           max_steps=max_steps, eval_offsets=eval_offsets,
+                                           max_steps=max_steps, eval_offsets=eval_offsets, eval_seed=eval_seed,
                                            observe_track_items=observe_track_items), max_steps)
     return race if native else DrivingActions(KartFeatures(ProgressReward(race)))
 
@@ -137,7 +138,7 @@ def lap_result(env, finished, steps):
 def evaluate_policy(env, policy, make_expert=None, *, native=False):
     rows = []
     for index, offset in enumerate(env.unwrapped.eval_offsets):
-        seed = EVAL_SEED + index
+        seed = env.unwrapped.eval_seed + index
         obs, _ = env.reset(seed=seed, options={"offset_m": offset})
         expert = make_expert(env.unwrapped) if make_expert else None
         for step in range(1, env.unwrapped.max_steps + 1):

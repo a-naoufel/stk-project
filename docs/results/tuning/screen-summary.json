@@ -1,0 +1,63 @@
+{
+  "arms": {
+    "search/symmetric/00": {
+      "runs": 16,
+      "laps": 160,
+      "finishes": 106,
+      "mean_capped_s": 104.40934181213379,
+      "mean_normalized": 169.03095056895964,
+      "mean_wall_s": 27.545963542383106,
+      "updates": 4096
+    },
+    "screen/replay-000": {
+      "runs": 16,
+      "laps": 160,
+      "finishes": 92,
+      "mean_capped_s": 116.58293344974518,
+      "mean_normalized": 189.60385415816864,
+      "mean_wall_s": 27.318279179438832,
+      "updates": 4096
+    },
+    "screen/replay-025": {
+      "runs": 16,
+      "laps": 160,
+      "finishes": 118,
+      "mean_capped_s": 94.63199737071992,
+      "mean_normalized": 155.61459010996396,
+      "mean_wall_s": 27.47919400480896,
+      "updates": 4096
+    },
+    "screen/replay-075": {
+      "runs": 16,
+      "laps": 160,
+      "finishes": 106,
+      "mean_capped_s": 102.89361462593078,
+      "mean_normalized": 166.72985770291305,
+      "mean_wall_s": 27.411380036486662,
+      "updates": 4096
+    },
+    "screen/replay-100": {
+      "runs": 16,
+      "laps": 160,
+      "finishes": 30,
+      "mean_capped_s": 170.30048568248748,
+      "mean_normalized": 288.83186089815814,
+      "mean_wall_s": 26.882096247492882,
+      "updates": 4096
+    }
+  },
+  "effects": {
+    "0/100 vs 50/50": {
+      "mean_pp": 20.572903589208998
+    },
+    "25/75 vs 50/50": {
+      "mean_pp": -13.416360458995698
+    },
+    "75/25 vs 50/50": {
+      "mean_pp": -2.3010928660465835
+    },
+    "100/0 vs 50/50": {
+      "mean_pp": 119.8009103291985
+    }
+  }
+}

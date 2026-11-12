@@ -7,6 +7,8 @@ The [21-track study](docs/results/all-tracks/RESULTS.md) compares DAgger and
 SAC with symmetric sampling across 10 training seeds and two expert controllers.
 See the [protocol](docs/STK_ALL_TRACKS_STUDY.md) for training and evaluation
 commands, and the [Lighthouse pilot](docs/STK_STUDY.md) for the earlier study.
+The [report draft](docs/STK_REPORT_DRAFT.md) includes the
+[Optuna and replay-split results](docs/results/tuning/RESULTS.md).
 
 For room 14-407 machines, see [PPTI deployment and run commands](docs/PPTI.md).
 The [7 November four-kart PPO evaluation](docs/EVALUATION.md) compares the

@@ -1,0 +1,141 @@
+{
+  "arms": {
+    "test/replay-000": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 2572,
+      "mean_capped_s": 96.89272794611314,
+      "mean_normalized": 178.06657835872613,
+      "mean_wall_s": 47.30274307713878,
+      "updates": 8192
+    },
+    "test/replay-025": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 2776,
+      "mean_capped_s": 88.10635199771208,
+      "mean_normalized": 162.02743969930435,
+      "mean_wall_s": 48.19081196524408,
+      "updates": 8192
+    },
+    "test/replay-050": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 2493,
+      "mean_capped_s": 101.41921584746417,
+      "mean_normalized": 199.10642544507039,
+      "mean_wall_s": 47.312108496173884,
+      "updates": 8192
+    },
+    "test/replay-075": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 2299,
+      "mean_capped_s": 109.48142919428209,
+      "mean_normalized": 215.83076757811315,
+      "mean_wall_s": 47.361288609606326,
+      "updates": 8192
+    },
+    "test/replay-100": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 493,
+      "mean_capped_s": 181.4933641983481,
+      "mean_normalized": 347.8972374905485,
+      "mean_wall_s": 47.832219407434565,
+      "updates": 8192
+    },
+    "test/dagger-tuned": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 3332,
+      "mean_capped_s": 62.39367853501264,
+      "mean_normalized": 109.52894934370816,
+      "mean_wall_s": 32.836545186119004,
+      "updates": 6144
+    },
+    "test/dagger-original": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 3301,
+      "mean_capped_s": 63.82264251933378,
+      "mean_normalized": 112.0987290801921,
+      "mean_wall_s": 32.07669200971004,
+      "updates": 3072
+    },
+    "test/sac-original": {
+      "runs": 340,
+      "laps": 3400,
+      "finishes": 1693,
+      "mean_capped_s": 132.1617721120049,
+      "mean_normalized": 253.826340234727,
+      "mean_wall_s": 42.485254000164296,
+      "updates": 4096
+    }
+  },
+  "effects": {
+    "0/100 vs 50/50": {
+      "mean_pp": -21.03984708634426,
+      "interval_pp": [
+        -30.652907841779452,
+        -11.8189153340372
+      ]
+    },
+    "25/75 vs 50/50": {
+      "mean_pp": -37.07898574576602,
+      "interval_pp": [
+        -47.370130429384695,
+        -25.905183439431433
+      ]
+    },
+    "75/25 vs 50/50": {
+      "mean_pp": 16.724342133042786,
+      "interval_pp": [
+        6.634945326768587,
+        26.822058006978814
+      ]
+    },
+    "100/0 vs 50/50": {
+      "mean_pp": 148.79081204547813,
+      "interval_pp": [
+        136.97739820136746,
+        160.3708684042305
+      ]
+    },
+    "Tuned 50/50 vs tuned DAgger": {
+      "mean_pp": 89.57747610136222,
+      "interval_pp": [
+        79.86229303807417,
+        100.00483886407902
+      ]
+    },
+    "Tuned DAgger vs original": {
+      "mean_pp": -2.569779736483941,
+      "interval_pp": [
+        -7.6802074844105155,
+        1.603879130205945
+      ]
+    },
+    "Tuned 50/50 vs original": {
+      "mean_pp": -54.71991478965663,
+      "interval_pp": [
+        -72.65985872779159,
+        -37.66039521599821
+      ]
+    },
+    "25/75 vs 0/100": {
+      "mean_pp": -16.039138659421756,
+      "interval_pp": [
+        -26.603242435414224,
+        -4.424543112235799
+      ]
+    },
+    "25/75 vs tuned DAgger": {
+      "mean_pp": 52.49849035559621,
+      "interval_pp": [
+        43.46505921817359,
+        62.46679516245945
+      ]
+    }
+  }
+}

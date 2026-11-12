@@ -50,3 +50,11 @@ loader. Analysis checks covered failure penalties, completion-based ranking,
 duplicate-race rejection and AI latency handling. The four actor tests
 passed. The heuristic completed more races than the best PPO checkpoint on
 both suites; no model was uploaded, deployed or substituted automatically.
+
+On 12 November 2026, Codex helped design and run the 21-track solo study
+comparing DAgger and symmetric replay in SB3 SAC. It implemented the campaign
+and analysis scripts, ran the controller benchmarks and 1,260 training jobs
+on PPTI, and checked the saved results against the experimental protocol.
+Codex prepared the first Markdown report draft from those results and verified
+the summary statistics against the per-lap records. The report is a draft for
+the project authors to review.
