@@ -40,8 +40,6 @@ class SymmetricReplay(ReplayBuffer):
     """Draw a fixed share of each batch from demonstrations, with replacement."""
 
     def __init__(self, *args, offline_percent=50, **kwargs):
-        if offline_percent not in (25, 50, 75, 100):
-            raise ValueError("Offline replay percentage must be 25, 50, 75, or 100")
         super().__init__(*args, **kwargs)
         self.offline_percent = offline_percent
         self.offline_draws = self.online_draws = 0
